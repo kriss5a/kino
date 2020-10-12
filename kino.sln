@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kino", "kino\kino.csproj", "{7FF35323-89CC-4F30-8703-0DB83F961AC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kino.test", "kino.test\kino.test.csproj", "{F25D9F5F-0154-49CC-9191-5E3544AE2C8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FF35323-89CC-4F30-8703-0DB83F961AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF35323-89CC-4F30-8703-0DB83F961AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF35323-89CC-4F30-8703-0DB83F961AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF35323-89CC-4F30-8703-0DB83F961AC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F25D9F5F-0154-49CC-9191-5E3544AE2C8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F25D9F5F-0154-49CC-9191-5E3544AE2C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F25D9F5F-0154-49CC-9191-5E3544AE2C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F25D9F5F-0154-49CC-9191-5E3544AE2C8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3C4861F-07A4-4FCE-8F6D-E897AE4E5CC0}
+	EndGlobalSection
+EndGlobal
