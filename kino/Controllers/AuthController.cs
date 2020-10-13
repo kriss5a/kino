@@ -139,7 +139,37 @@ namespace KnmBackend.Controllers
             }
             return Role.User;
         }
+        
+        [HttpPost]
+        [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Route("change-password")]
+        public async Task<ActionResult> ChangePassword([FromForm] ChangePasswordViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!CheckPasswordRequirements(viewModel.NewPassword))
+            {
+                return BadRequest();
+            }
 
+            var user = await userManager.GetUserAsync(User);
+
+            var signInResult = await signInManager.PasswordSignInAsync(user, viewModel.CurrentPassword, false, false);
+            if (signInResult.Succeeded)
+            {
+                string newPassword = userManager.PasswordHasher.HashPassword(user, viewModel.NewPassword);
+                user.PasswordHash = newPassword;
+                IdentityResult updateResult = await userManager.UpdateAsync(user);
+                await signInManager.SignOutAsync();
+                if (updateResult.Succeeded)
+                {
+                    return new OkObjectResult(null);
+                }
+            }
+            return BadRequest();
+        }
         private bool CheckPasswordRequirements(string password)
         {
             return password.Length >= 6 &&
