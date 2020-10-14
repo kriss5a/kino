@@ -55,7 +55,7 @@ namespace kino.Database
                 {
                     UserName = encoder.Encode("admin"),
                     FullName = encoder.Encode("Witold Tomaszewski"),
-            };
+                };
                 var createResult = signInManager.UserManager.CreateAsync(user, "Zaq12wsx!").Result;
                 if (!createResult.Succeeded)
                 {
