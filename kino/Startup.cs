@@ -55,10 +55,8 @@ namespace kino
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeedData seedData)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // todo sprawdziæ czy w .net 3.0 dziala
-            //workaround for https://github.com/aspnet/AspNetCore/issues/4398
             app.Use(async (ctx, next) =>
             {
                 await next();
@@ -86,6 +84,7 @@ namespace kino
             {
                 endpoints.MapControllers();
             });
+            var seedData = app.ApplicationServices.GetRequiredService<SeedData>();
             seedData.EnsurePopulated();
         }
         private void ConfigureJwtBearerOptions(JwtBearerOptions options)

@@ -12,7 +12,10 @@ namespace kino.Crypto
         {
             this.shift = shift;
         }
-
+        public CaesarEncoder(IConfiguration config)
+        {
+            shift = config.GetSection("Crypto").GetValue<int>("CaesarShift");
+        }
 
         public string Encode(string data)
         {
