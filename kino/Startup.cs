@@ -35,7 +35,7 @@ namespace kino
             });
 
             services.AddDbContext<KinoContext>(options =>
-                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=kinoDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=reaktywneKinoDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddRoles<IdentityRole>()
@@ -50,7 +50,7 @@ namespace kino
 
             services.AddTransient<KinoContext>();
             services.AddScoped<JwtTokenGenerator>();
-            services.AddTransient<SeedData>();
+            services.AddSingleton<SeedData>();
             services.AddControllers();
         }
 
@@ -129,7 +129,6 @@ namespace kino
                 {
                     authBuilder.RequireRole(role);
                 });
-
             }
         }
 
