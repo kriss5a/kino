@@ -141,7 +141,7 @@ namespace KnmBackend.Controllers
         }
         
         [HttpPost]
-        [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Route("change-password")]
         public async Task<ActionResult> ChangePassword([FromForm] ChangePasswordViewModel viewModel)
         {

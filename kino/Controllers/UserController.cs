@@ -48,13 +48,18 @@ namespace kino.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             var reservations = context.Reservations
+                .Where(r => r.UserId == user.Id)
                 .Include(r => r.Screening)
                 .ThenInclude(sc => sc.Movie)
                 .Include(r => r.Screening)
                 .ThenInclude(sc => sc.ScreeningRoom)
-                .Where(r => r.UserId == user.Id)
                 .ToArray();
-            return new OkObjectResult(reservations);
+
+            var badReservations = reservations.Where(r => r.Expiration.HasValue || !r.IsConfirmed);
+            context.RemoveRange(badReservations);
+            await context.SaveChangesAsync();
+
+            return new OkObjectResult(reservations.Where(r => !r.Expiration.HasValue && r.IsConfirmed));
         }
 
         [HttpGet]

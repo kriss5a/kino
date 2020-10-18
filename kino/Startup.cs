@@ -35,7 +35,7 @@ namespace kino
             });
 
             services.AddDbContext<KinoContext>(options =>
-                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=reaktywneKinoDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=kinoDB;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddRoles<IdentityRole>()
@@ -57,6 +57,8 @@ namespace kino
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // todo sprawdziæ czy w .net 3.0 dziala
+            //workaround for https://github.com/aspnet/AspNetCore/issues/4398
             app.Use(async (ctx, next) =>
             {
                 await next();
