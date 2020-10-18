@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,14 +22,14 @@ namespace kino.Controllers
         [HttpGet]
         [Route("")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetMovies()
+        public ActionResult<List<Movie>> GetMovies()
         {
-            return new OkObjectResult(context.Movies);
+            return new OkObjectResult(context.Movies.ToList());
         }
 
         [HttpPost]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> AddMovie([FromForm] Movie movie)
+        public async Task<ActionResult<Movie>> AddMovie([FromForm] Movie movie)
         {
             if (!ModelState.IsValid)
             {
@@ -49,13 +50,13 @@ namespace kino.Controllers
         [HttpPatch]
         [Route("{id}")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> PatchMovie(int id, [FromForm] Movie movie)
+        public async Task<ActionResult<Movie>> PatchMovie(int id, [FromForm] Movie movie)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var existingMovie = context.Movies.FirstOrDefault(m => m.Title == movie.Title);
+            var existingMovie = context.Movies.FirstOrDefault(m => m.MovieId == id);
             if (existingMovie == null)
             {
                 return NotFound();
@@ -76,7 +77,7 @@ namespace kino.Controllers
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> DeleteMovie(int id)
+        public async Task<ActionResult<Movie>> DeleteMovie(int id)
         {
             var movie = context.Movies.FirstOrDefault(m => m.MovieId == id);
             if (movie == null)

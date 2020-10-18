@@ -10,7 +10,7 @@ namespace kino.Crypto
 
         public CaesarEncoder(int shift)
         {
-            this.shift = shift;
+            this.shift = shift % 26;
         }
         public CaesarEncoder(IConfiguration config)
         {

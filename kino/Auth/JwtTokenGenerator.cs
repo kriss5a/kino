@@ -11,12 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 
     public class JwtTokenGenerator
     {
-        private readonly IConfiguration configuration;
         private readonly UserManager<User> userManager;
 
-        public JwtTokenGenerator(IConfiguration configuration, UserManager<User> userManager)
+        public JwtTokenGenerator(UserManager<User> userManager)
         {
-            this.configuration = configuration;
             this.userManager = userManager;
         }
 

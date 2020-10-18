@@ -23,14 +23,14 @@ namespace kino.Controllers
         [HttpGet]
         [Route("")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetScreeningRooms()
+        public ActionResult<List<ScreeningRoom>> GetScreeningRooms()
         {
-            return new OkObjectResult(context.ScreeningRooms);
+            return new OkObjectResult(context.ScreeningRooms.ToList());
         }
 
         [HttpPost]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> AddScreeningRoom([FromForm] ScreeningRoom room)
+        public async Task<ActionResult<ScreeningRoom>> AddScreeningRoom([FromForm] ScreeningRoom room)
         {
             if (!ModelState.IsValid)
             {
@@ -51,13 +51,13 @@ namespace kino.Controllers
         [HttpPatch]
         [Route("{id}")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> PatchRoom(int id, [FromForm] ScreeningRoom room)
+        public async Task<ActionResult<ScreeningRoom>> PatchRoom(int id, [FromForm] ScreeningRoom room)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var existingRoom = context.ScreeningRooms.FirstOrDefault(sm => sm.Name == room.Name);
+            var existingRoom = context.ScreeningRooms.FirstOrDefault(sm => sm.ScreeningRoomId == id);
             if (existingRoom == null)
             {
                 return NotFound();
@@ -79,7 +79,7 @@ namespace kino.Controllers
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> DeleteScreeningRoom(int id)
+        public async Task<ActionResult<ScreeningRoom>> DeleteScreeningRoom(int id)
         {
             var room = context.ScreeningRooms.FirstOrDefault(m => m.ScreeningRoomId == id);
             if (room == null)

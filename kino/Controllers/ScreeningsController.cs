@@ -24,14 +24,14 @@ namespace kino.Controllers
         [HttpGet]
         [Route("")]
         [Authorize(Roles = Role.Employee + "," + Role.User, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetScreenings()
+        public ActionResult<List<Screening>> GetScreenings()
         {
-            return new OkObjectResult(context.Screenings.Include(s => s.ScreeningRoom).Include(s => s.Movie));
+            return new OkObjectResult(context.Screenings.Include(s => s.ScreeningRoom).Include(s => s.Movie).ToList());
         }
 
         [HttpPost]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> AddScreening([FromForm] Screening screening)
+        public async Task<ActionResult<Screening>> AddScreening([FromForm] Screening screening)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace kino.Controllers
         [HttpPatch]
         [Route("{id}")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> PatchScreening(int id, [FromForm] Screening screening)
+        public async Task<ActionResult<ActionResult<Screening>>> PatchScreening(int id, [FromForm] Screening screening)
         {
             if (!ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace kino.Controllers
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Roles = Role.Employee, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> DeleteScreening(int id)
+        public async Task<ActionResult<ActionResult<Screening>>> DeleteScreening(int id)
         {
             var screening = context.Screenings.FirstOrDefault(s => s.ScreeningId== id);
             if (screening == null)
