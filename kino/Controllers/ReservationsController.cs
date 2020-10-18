@@ -131,7 +131,7 @@ namespace kino.Controllers
             var myReservation = context.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
             if (myReservation == null)
             {
-                return new OkObjectResult("NOPE NA AMEN");
+                return new OkObjectResult("RESERVATION_BOOKED");
             }
             if (myReservation.Expiration.HasValue)
             {
@@ -144,7 +144,7 @@ namespace kino.Controllers
             var confirmed = await otherReservations.Where(r => r.IsConfirmed).FirstOrDefaultAsync(); // no niestety
             if (confirmed != null)
             {
-                return new OkObjectResult("NOPE NA AMEN");
+                return new OkObjectResult("RESERVATION_BOOKED");
             }
 
             var leader = await otherReservations.Where(r => r.Expiration.HasValue).FirstOrDefaultAsync();
@@ -160,14 +160,14 @@ namespace kino.Controllers
                 }
                 else
                 {
-                    return new OkObjectResult("NOPE"); // nie my, ale warto dalej próbować
+                    return new OkObjectResult("KEEP_WAITING"); // nie my, ale warto dalej próbować
                 }
             }
             else // leader istnieje
             {
                 if (leader.Expiration.Value > DateTime.Now) // i dalej ma prawo wyboru
                 {
-                    return new OkObjectResult("NOPE");
+                    return new OkObjectResult("KEEP_WAITING");
                 }
                 else
                 {
@@ -189,11 +189,11 @@ namespace kino.Controllers
                             var res = otherReservations.Where(r => !r.IsConfirmed);
                             context.RemoveRange(res);
                             await context.SaveChangesAsync();
-                            return new OkObjectResult("NOPE NA AMEN");
+                            return new OkObjectResult("RESERVATION_BOOKED");
                         }
                         else
                         {
-                            return new OkObjectResult("NOPE"); // nie my, ale warto dalej próbować
+                            return new OkObjectResult("KEEP_WAITING"); // nie my, ale warto dalej próbować
                         }
                     }
                 }
@@ -218,18 +218,5 @@ namespace kino.Controllers
 
             return new OkObjectResult(reservation);
         }
-    }
-
-    public class StartReservationResponse
-    {
-        public string Status { get; set; }
-        public Reservation Reservation { get; set; }
-    }
-
-    public class StartReservationViewModel
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int ScreeningId { get; set; }
     }
 }
